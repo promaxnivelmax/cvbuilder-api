@@ -1,0 +1,4 @@
+{ "name": "cvbuilder-api", "version": "1.0.0", "description": "API REST de CV Builder - GA7-220501096-AA5-EV03",
+  "main": "src/server.js", "scripts": { "start": "node src/server.js", "test": "newman run postman/coleccion_cvbuilder.json" },
+  "author": "Iván Gerardo Rodríguez Bustamante", "license": "MIT",
+  "dependencies": { "bcryptjs": "^3.0.0", "express": "^5.1.0", "jsonwebtoken": "^9.0.2", "swagger-ui-express": "^5.0.1" } }
