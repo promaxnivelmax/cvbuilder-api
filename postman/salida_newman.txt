@@ -1,0 +1,127 @@
+newman
+
+CV Builder API – GA7-220501096-AA5
+
+→ 01 Salud
+  GET http://localhost:4000/api/salud [200 OK, 291B, 46ms]
+  ✓  Código 200
+
+→ 02 Registro
+  POST http://localhost:4000/api/auth/registro [201 Created, 285B, 139ms]
+  ✓  Código 201
+  ✓  Mensaje contiene: Cuenta creada
+
+→ 03 Registro duplicado
+  POST http://localhost:4000/api/auth/registro [409 Conflict, 303B, 4ms]
+  ✓  Código 409
+  ✓  Mensaje contiene: Ya existe
+
+→ 04 Registro correo inválido
+  POST http://localhost:4000/api/auth/registro [400 Bad Request, 307B, 4ms]
+  ✓  Código 400
+  ✓  Mensaje contiene: formato válido
+
+→ 05 Login incorrecto
+  POST http://localhost:4000/api/auth/login [401 Unauthorized, 303B, 99ms]
+  ✓  Código 401
+  ✓  Mensaje contiene: incorrectos
+
+→ 06 Login correcto
+  POST http://localhost:4000/api/auth/login [200 OK, 467B, 110ms]
+  ✓  Código 200
+  ✓  Devuelve token
+
+→ 07 Perfil sin token
+  GET http://localhost:4000/api/perfil [401 Unauthorized, 295B, 9ms]
+  ✓  Código 401
+  ✓  Mensaje contiene: Falta el token
+
+→ 08 Guardar datos personales
+  PUT http://localhost:4000/api/perfil [200 OK, 286B, 18ms]
+  ✓  Código 200
+  ✓  Mensaje contiene: guardados
+
+→ 09 Consultar datos personales
+  GET http://localhost:4000/api/perfil [200 OK, 532B, 13ms]
+  ✓  Código 200
+  ✓  Ciudad guardada
+
+→ 10 Agregar formación
+  POST http://localhost:4000/api/formacion [201 Created, 287B, 9ms]
+  ✓  Código 201
+  ✓  Mensaje contiene: creado
+
+→ 11 Formación sin título
+  POST http://localhost:4000/api/formacion [400 Bad Request, 297B, 3ms]
+  ✓  Código 400
+  ✓  Mensaje contiene: obligatorios
+
+→ 12 Listar formación
+  GET http://localhost:4000/api/formacion [200 OK, 367B, 3ms]
+  ✓  Código 200
+  ✓  Un registro
+
+→ 13 Actualizar formación
+  PUT http://localhost:4000/api/formacion/1 [200 OK, 280B, 5ms]
+  ✓  Código 200
+  ✓  Mensaje contiene: actualizado
+
+→ 14 Agregar experiencia
+  POST http://localhost:4000/api/experiencia [201 Created, 287B, 6ms]
+  ✓  Código 201
+  ✓  Mensaje contiene: creado
+
+→ 15 Habilidad con nivel inválido
+  POST http://localhost:4000/api/habilidades [400 Bad Request, 358B, 3ms]
+  ✓  Código 400
+  ✓  Mensaje contiene: no válidos
+
+→ 16 Agregar habilidad
+  POST http://localhost:4000/api/habilidades [201 Created, 287B, 6ms]
+  ✓  Código 201
+  ✓  Mensaje contiene: creado
+
+→ 17 Agregar referencia
+  POST http://localhost:4000/api/referencias [201 Created, 287B, 7ms]
+  ✓  Código 201
+  ✓  Mensaje contiene: creado
+
+→ 18 Hoja de vida completa
+  GET http://localhost:4000/api/hoja-vida [200 OK, 1.06kB, 3ms]
+  ✓  Código 200
+  ✓  Contiene todas las secciones
+
+→ 19 Eliminar formación
+  DELETE http://localhost:4000/api/formacion/1 [200 OK, 278B, 5ms]
+  ✓  Código 200
+  ✓  Mensaje contiene: eliminado
+
+→ 20 Eliminar formación inexistente
+  DELETE http://localhost:4000/api/formacion/1 [404 Not Found, 290B, 2ms]
+  ✓  Código 404
+  ✓  Mensaje contiene: no encontrado
+
+→ 21 Eliminar cuenta
+  DELETE http://localhost:4000/api/cuenta [200 OK, 276B, 8ms]
+  ✓  Código 200
+  ✓  Mensaje contiene: eliminada
+
+┌─────────────────────────┬───────────────────┬──────────────────┐
+│                         │          executed │           failed │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              iterations │                 1 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│                requests │                21 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│            test-scripts │                21 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│      prerequest-scripts │                 0 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              assertions │                41 │                0 │
+├─────────────────────────┴───────────────────┴──────────────────┤
+│ total run duration: 843ms                                      │
+├────────────────────────────────────────────────────────────────┤
+│ total data received: 2.4kB (approx)                            │
+├────────────────────────────────────────────────────────────────┤
+│ average response time: 23ms [min: 2ms, max: 139ms, s.d.: 39ms] │
+└────────────────────────────────────────────────────────────────┘

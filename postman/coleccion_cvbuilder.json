@@ -1,0 +1,853 @@
+{
+  "info": {
+    "name": "CV Builder API – GA7-220501096-AA5",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Pruebas de la API del proyecto CV Builder · Iván Rodríguez"
+  },
+  "item": [
+    {
+      "name": "01 Salud",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/salud",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "salud"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Registro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/auth/registro",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Laura Pérez Gómez\",\n  \"correo\": \"laura@correo.com\",\n  \"contrasena\": \"Prueba2026*\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 201', () => pm.response.to.have.status(201));",
+              "pm.test('Mensaje contiene: Cuenta creada', () => pm.expect(pm.response.json().mensaje).to.include('Cuenta creada'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Registro duplicado",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/auth/registro",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Laura\",\n  \"correo\": \"laura@correo.com\",\n  \"contrasena\": \"Prueba2026*\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 409', () => pm.response.to.have.status(409));",
+              "pm.test('Mensaje contiene: Ya existe', () => pm.expect(pm.response.json().mensaje).to.include('Ya existe'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Registro correo inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/auth/registro",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana\",\n  \"correo\": \"ana-correo\",\n  \"contrasena\": \"Prueba2026*\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 400', () => pm.response.to.have.status(400));",
+              "pm.test('Mensaje contiene: formato válido', () => pm.expect(pm.response.json().mensaje).to.include('formato válido'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Login incorrecto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/auth/login",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"laura@correo.com\",\n  \"contrasena\": \"Mala2026*\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 401', () => pm.response.to.have.status(401));",
+              "pm.test('Mensaje contiene: incorrectos', () => pm.expect(pm.response.json().mensaje).to.include('incorrectos'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Login correcto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/auth/login",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"laura@correo.com\",\n  \"contrasena\": \"Prueba2026*\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "const j=pm.response.json(); pm.test('Devuelve token', () => pm.expect(j.token).to.be.a('string')); pm.collectionVariables.set('token', j.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Perfil sin token",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/perfil",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "perfil"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 401', () => pm.response.to.have.status(401));",
+              "pm.test('Mensaje contiene: Falta el token', () => pm.expect(pm.response.json().mensaje).to.include('Falta el token'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Guardar datos personales",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/perfil",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "perfil"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cargo\": \"Tecnóloga en sistemas\",\n  \"documento\": \"1096111222\",\n  \"telefono\": \"3105550000\",\n  \"ciudad\": \"Barrancabermeja\",\n  \"perfil\": \"Persona responsable con experiencia en soporte técnico.\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "pm.test('Mensaje contiene: guardados', () => pm.expect(pm.response.json().mensaje).to.include('guardados'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Consultar datos personales",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/perfil",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "perfil"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "pm.test('Ciudad guardada', () => pm.expect(pm.response.json().datos.ciudad).to.eql('Barrancabermeja'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Agregar formación",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/formacion",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "formacion"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Tecnólogo en ADSO\",\n  \"institucion\": \"SENA\",\n  \"inicio\": \"2024-02\",\n  \"fin\": \"2026-12\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 201', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('idFormacion', pm.response.json().id);",
+              "pm.test('Mensaje contiene: creado', () => pm.expect(pm.response.json().mensaje).to.include('creado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Formación sin título",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/formacion",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "formacion"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"institucion\": \"SENA\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 400', () => pm.response.to.have.status(400));",
+              "pm.test('Mensaje contiene: obligatorios', () => pm.expect(pm.response.json().mensaje).to.include('obligatorios'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Listar formación",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/formacion",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "formacion"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "pm.test('Un registro', () => pm.expect(pm.response.json().datos.length).to.eql(1));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 Actualizar formación",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/formacion/{{idFormacion}}",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "formacion",
+            "{{idFormacion}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Tecnólogo en Análisis y Desarrollo de Software\",\n  \"institucion\": \"SENA Barrancabermeja\",\n  \"inicio\": \"2024-02\",\n  \"fin\": \"2026-12\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "pm.test('Mensaje contiene: actualizado', () => pm.expect(pm.response.json().mensaje).to.include('actualizado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 Agregar experiencia",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/experiencia",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "experiencia"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cargo\": \"Auxiliar de soporte\",\n  \"empresa\": \"Soluciones Digitales\",\n  \"inicio\": \"2023-01\",\n  \"fin\": \"2024-12\",\n  \"funciones\": \"Mantenimiento de equipos\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 201', () => pm.response.to.have.status(201));",
+              "pm.test('Mensaje contiene: creado', () => pm.expect(pm.response.json().mensaje).to.include('creado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 Habilidad con nivel inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/habilidades",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "habilidades"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"JavaScript\",\n  \"nivel\": \"Experto\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 400', () => pm.response.to.have.status(400));",
+              "pm.test('Mensaje contiene: no válidos', () => pm.expect(pm.response.json().mensaje).to.include('no válidos'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 Agregar habilidad",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/habilidades",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "habilidades"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"JavaScript\",\n  \"nivel\": \"Intermedio\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 201', () => pm.response.to.have.status(201));",
+              "pm.test('Mensaje contiene: creado', () => pm.expect(pm.response.json().mensaje).to.include('creado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 Agregar referencia",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/referencias",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "referencias"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Carlos Ruiz Peña\",\n  \"tipo\": \"Laboral\",\n  \"telefono\": \"3155550456\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 201', () => pm.response.to.have.status(201));",
+              "pm.test('Mensaje contiene: creado', () => pm.expect(pm.response.json().mensaje).to.include('creado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 Hoja de vida completa",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/hoja-vida",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "hoja-vida"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "const d=pm.response.json().datos; pm.test('Contiene todas las secciones', () => { pm.expect(d.formacion.length).to.eql(1); pm.expect(d.experiencia.length).to.eql(1); pm.expect(d.habilidades.length).to.eql(1); pm.expect(d.referencias.length).to.eql(1); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 Eliminar formación",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/formacion/{{idFormacion}}",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "formacion",
+            "{{idFormacion}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "pm.test('Mensaje contiene: eliminado', () => pm.expect(pm.response.json().mensaje).to.include('eliminado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 Eliminar formación inexistente",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/formacion/{{idFormacion}}",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "formacion",
+            "{{idFormacion}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 404', () => pm.response.to.have.status(404));",
+              "pm.test('Mensaje contiene: no encontrado', () => pm.expect(pm.response.json().mensaje).to.include('no encontrado'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "21 Eliminar cuenta",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base}}/api/cuenta",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "cuenta"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Código 200', () => pm.response.to.have.status(200));",
+              "pm.test('Mensaje contiene: eliminada', () => pm.expect(pm.response.json().mensaje).to.include('eliminada'));"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "idFormacion",
+      "value": ""
+    }
+  ]
+}
